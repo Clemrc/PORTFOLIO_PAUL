@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'orkneylight';
+    src: url('../list-typo/orkney-light-webfont.woff') format('woff');   
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'orkneyregular';
+    src: url('../list-typo/orkney-regular-webfont.woff') format('woff'),  ;
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'orkneymedium';
+    src: url('../list-typo/orkney-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'orkneybold';
+    src: url('../list-typo/orkney-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
