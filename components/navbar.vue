@@ -11,10 +11,6 @@
       </div>
     </nuxt-link>
     <ul>
-      <!-- <li>
-        <nuxt-link to="/experimentations" class="hidetext text-nav"
-          >Experimentations</nuxt-link>
-      </li> -->
       <li>
         <nuxt-link to="/works" class="hidetext text-nav">Clients</nuxt-link>
       </li>
@@ -22,6 +18,7 @@
         <nuxt-link to="/about" class="hidetext text-nav">Contact</nuxt-link>
       </li>
     </ul>
+    <div id="_progress"></div>
   </nav>
 </template>
 
@@ -35,8 +32,25 @@ export default {
       ease: 'power2',
       y: '0%',
       delay: 2.5,
-      duration: 1.5,
+      duration: 1,
       stagger: 0.1
+    })
+    document.addEventListener('scroll', function () {
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop
+
+      const scrollBottom =
+        (document.documentElement.scrollHeight || document.body.scrollHeight) -
+        document.documentElement.clientHeight
+
+      const scrollPercent = (scrollTop / scrollBottom) * 100 + '%'
+      const scrollPercentDecimal = Math.round((scrollTop / scrollBottom) * 100)
+
+      document
+        .getElementById('_progress')
+        .style.setProperty('--scroll', scrollPercent)
+
+      document.getElementById('_percent').innerHTML = scrollPercentDecimal
     })
   }
 }
@@ -49,6 +63,7 @@ nav {
   display: flex;
   justify-content: space-between;
   padding-top: 50px;
+  margin-bottom: 50px;
 }
 
 .name {
@@ -71,7 +86,8 @@ h1 {
 }
 
 h1,
-li {
+li,
+.line {
   background-color: #fff;
   overflow: hidden;
 }
@@ -85,6 +101,7 @@ ul {
   display: flex;
   justify-content: flex-end;
   list-style: none;
+  padding: 0;
 }
 
 li {
@@ -101,5 +118,32 @@ li:hover {
 a {
   text-decoration: none;
   color: black;
+}
+
+.separation {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: black;
+}
+
+#_progress {
+  --scroll: 0%;
+  background: linear-gradient(
+    to right,
+    rgb(0, 0, 0) var(--scroll),
+    transparent 0
+  );
+  position: fixed;
+  width: 100%;
+  height: 5px;
+  right: 0px;
+  top: 0px;
+  z-index: 100;
 }
 </style>

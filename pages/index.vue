@@ -1,26 +1,26 @@
 <template>
-  <div id="js-scroll" class="container">
-    <WelcomeScreen v-if="!animvalidation" />
-    <section data-scroll-section class="main" v-show="main">
+  <div data-scroll-container class="container">
+    <WelcomeScreen v-if="!getValidation" />
+    <section data-scroll-section class="main">
       <img
-        v-for="(item, i) in items"
-        :key="i"
+        v-for="(item, index) in items"
+        :key="index"
+        class="img"
+        :class="{ active: index === isActive }"
         :src="`photos_tinypng/${item.src}`"
+        @click="lookBig(index)"
       />
     </section>
   </div>
 </template>
 
 <script>
-import Navbar from '~/components/Navbar'
+import gsap from 'gsap'
 import WelcomeScreen from '~/components/WelcomeScreen'
 
-import gsap from 'gsap'
-
-var cache = {}
 const images = require.context('../static/photos_tinypng/', false, /\.jpg$/)
-var imagesArray = Array.from(images.keys())
-var constructed = []
+const imagesArray = Array.from(images.keys())
+const constructed = []
 function constructItems(fileNames, constructed) {
   fileNames.forEach((fileName) => {
     constructed.push({
@@ -29,54 +29,55 @@ function constructItems(fileNames, constructed) {
   })
   return constructed
 }
-var res = constructItems(imagesArray, constructed)
+const res = constructItems(imagesArray, constructed)
 
 export default {
   components: {
-    Navbar,
     WelcomeScreen
   },
   data() {
     return {
       main: false,
       items: res,
-      animvalidation: ''
+      isActive: null
     }
   },
-  async asyncData({ $content }) {
-    const page = await $content('index').fetch()
-    return {
-      page
+  computed: {
+    getValidation() {
+      return this.$store.getters.getValidation
     }
   },
   mounted() {
     const tl = gsap.timeline()
-    if (!this.$store.state.firstAnimation) {
-      tl.delay(3.8).call(this.show(this)).to('img', {
-        y: '2%',
-        duration: 1,
-        opacity: 1,
-        stagger: 0.1
-      })
-      this.$store.dispatch('store/validateFirstAnimation', {
-        validation: true
-      })
+    if (!this.getValidation) {
+      tl.delay(3.3)
+        // .call(this.show(this))
+        .to('img', {
+          // y: '5%',
+          // duration: 0.2,
+          opacity: 1,
+          stagger: 0.08
+        })
+        .then(() => {
+          this.$store.dispatch('validateFirstAnimation', {
+            validation: true
+          })
+        })
     } else {
-      tl.call(this.show(this)).to('img', {
-        y: '2%',
-        duration: 1,
+      tl.to('img', {
+        // y: '5%',
+        // duration: 0.3,
         opacity: 1,
-        stagger: 0.1
+        stagger: 0.05
       })
     }
   },
-  updated() {
-    this.animvalidation = this.$store.state.firstAnimation
-  },
   methods: {
-    show: (c) => {
-      return () => {
-        c.main = true
+    lookBig(index) {
+      if (this.isActive == null) {
+        this.isActive = index
+      } else {
+        this.isActive = null
       }
     }
   }
@@ -87,7 +88,6 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 
 .container {
-  min-height: calc(100vh - 200px);
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -98,7 +98,7 @@ export default {
 
 .main {
   padding: 0 20px;
-  margin: 100px auto;
+  margin: 0 auto 40px;
   flex-direction: column;
 }
 
@@ -107,10 +107,21 @@ h1 {
   margin: 2rem;
 }
 
-section img {
+.img {
   opacity: 0;
-  width: 80%;
+  width: 200px;
+  height: 66px;
   margin: 20px;
+  cursor: pointer;
+  object-fit: cover;
+  /* transition: 1s; */
+}
+
+.active {
+  width: 50%;
+  height: auto;
+  transition: 0.3s;
+  transition-timing-function: ease-in-out;
 }
 
 @media (min-width: 1300px) {
@@ -118,14 +129,15 @@ section img {
     width: 90%;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     align-self: center;
     flex-wrap: wrap;
     flex-direction: row;
   }
 
   section img {
-    width: 400px;
+    width: 300px;
+    height: 100px;
   }
 }
 </style>

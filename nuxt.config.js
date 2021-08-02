@@ -8,22 +8,19 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: '' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: [
-    '~/assets/css/typo.css'
-  ],
+  css: ['~/assets/css/typo.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    {
-      src: "~/plugins/locomotive.js",
-      ssr: false
-    }
+    { src: '~/plugins/both.js' },
+    { src: '~/plugins/client.js', mode: 'client' },
+    { src: '~/plugins/server.js', mode: 'server' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -40,7 +37,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/content
-    '@nuxt/content',
+    '@nuxt/content'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -50,5 +47,5 @@ export default {
   content: {},
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {}
 }

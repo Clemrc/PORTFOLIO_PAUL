@@ -1,5 +1,7 @@
 export const state = () => ({
-  firstAnimation: false
+  firstAnimation: {
+    validation: false
+  }
 })
 
 export const mutations = {
@@ -16,6 +18,6 @@ export const actions = {
 
 export const getters = {
   getValidation(state) {
-    return state.firstAnimation
+    return state.firstAnimation.validation
   }
 }

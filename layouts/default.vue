@@ -1,8 +1,22 @@
 <template>
-  <div>
+  <LocomotiveScroll
+    ref="scroller"
+    :getted-options="{
+      smooth: true,
+      direction: 'vertical',
+      smartphone: {
+        smooth: true,
+        direction: 'vertical'
+      },
+      tablet: {
+        smooth: true,
+        direction: 'vertical'
+      }
+    }"
+  >
     <Navbar />
     <Nuxt />
-  </div>
+  </LocomotiveScroll>
 </template>
 
 <script>

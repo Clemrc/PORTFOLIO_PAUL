@@ -28,7 +28,7 @@ export default {
         ease: 'power2',
         y: '150%',
         delay: 1,
-        duration: 1,
+        duration: 0.5,
         stagger: 0.1
       })
       .call(this.removeElement('.welcome-screen'))
