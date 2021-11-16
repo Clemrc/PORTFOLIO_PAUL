@@ -2,7 +2,6 @@
   <div id="js-scroll" class="container">
     <section data-scroll-section class="main">
       <h1>Paul Jaffredo</h1>
-      <p>aka le plus beau</p>
     </section>
   </div>
 </template>
